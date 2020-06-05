@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Tests\TestCase;
 
 class ParticipateInForumTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     /**
      * @test
@@ -17,7 +18,7 @@ class ParticipateInForumTest extends TestCase
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $this->post('/threads/1/replies',[]);
+        $this->withoutExceptionHandling()->post('/threads/1/replies',[]);
     }
 
     /**

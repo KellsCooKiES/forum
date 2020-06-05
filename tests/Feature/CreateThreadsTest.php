@@ -2,13 +2,17 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+
 
 use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
+
+
+
    /**
     * @test
     */
@@ -27,12 +31,15 @@ class CreateThreadsTest extends TestCase
     /**
      * @test
      */
-    public function unauth_user_may_not_create_threads()
+    public function guests_may_not_create_threads()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-        $thread = factory('App\Thread')->make();
-
-        $this->post('/threads', $thread->toArray());
-
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+        $this->post('/threads')
+            ->assertRedirect('/login');
     }
+
+
+
+
 }
