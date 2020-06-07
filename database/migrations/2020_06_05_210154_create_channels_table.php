@@ -19,6 +19,8 @@ class CreateChannelsTable extends Migration
             $table->string('slug',50);
             $table->timestamps();
         });
+
+
     }
 
     /**

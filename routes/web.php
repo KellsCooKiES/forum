@@ -20,10 +20,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/threads','ThreadController@index');
-Route::get('/threads/{channel}','ThreadController@index');
+
 Route::get('/threads/create','ThreadController@create');
+Route::get('/threads','ThreadController@index');
 Route::post('/threads','ThreadController@store');
+Route::get('/threads/{channel}','ThreadController@index');
 Route::get('/threads/{channel}/{thread}','ThreadController@show');
 
 //Route::resource('threads','ThreadController');
