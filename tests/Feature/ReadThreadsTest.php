@@ -11,6 +11,8 @@ class ReadThreadsTest extends TestCase
     use DatabaseMigrations;
 
 
+    private $thread;
+
     public function setUp():void
     {
         parent::setUp();
@@ -32,7 +34,7 @@ class ReadThreadsTest extends TestCase
      */
     public function a_user_can_read_a_single_thread()
     {
-        $response =$this->get('/threads/'.$this->thread->id);
+        $response =$this->get($this->thread->path());
         $response->assertSee($this->thread->title);
     }
 
@@ -43,9 +45,22 @@ class ReadThreadsTest extends TestCase
     {
       $reply= factory('App\Reply')->create(['thread_id' => $this->thread->id]);
 
-      $response=$this->get('/threads/'.$this->thread->id);
+      $response=$this->get($this->thread->path());
       $response->assertSee($reply->body);
+    }
 
+    /**
+     * @test
+     */
+    public function a_user_can_filter_the_threads_according_to_a_tag()
+    {
 
+        $channel = factory('App\Channel')->create();
+        $threadInChannel = factory('App\Thread')->create(['channel_id'=>$channel->id]);
+        $threadNotInChannel = factory('App\Thread')->create();
+
+        $this->get('/threads/'.$channel->slug)
+            ->assertSee($threadInChannel->title)
+            ->assertDontSee($threadNotInChannel->title);
     }
 }

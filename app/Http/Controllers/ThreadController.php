@@ -19,13 +19,19 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param null $channelId
      * @return Response
      */
-    public function index()
+    public function index($channelId = null)
     {
-        $threads= Thread::latest()->get();
+        if ($channelId) {
+            $threads = Thread::where('channel_id', $channelId)->latest()->get();
+            return view('threads.index', compact('threads'));
+        } else {
+            $threads = Thread::latest()->get();
+            return view('threads.index', compact('threads'));
+        }
 
-         return view('threads.index', compact('threads'));
     }
 
     /**
@@ -41,28 +47,35 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
     {
      $thread = new Thread;
-     $id=$thread->create([
+
+     $request->validate([
+        'title'=>'required',
+         'body'=>'required',
+         'channel_id'=>'required|exists:channels,id',
+     ]);
+     $thread = $thread->create([
          'user_id' => auth()->id(),
-        'title' => request('title'),
-         'body' => request('body'),
-         'channel_id'=>request('channel_id')
-     ])->id;
-     return redirect('/threads/'.$id);
+        'title' => $request['title'],
+         'body' => $request['body'],
+         'channel_id'=>$request['channel_id']
+     ]);
+     return redirect($thread->path());
     }
 
     /**
      * Display the specified resource.
      *
+     * @param $channelId
      * @param Thread $thread
      * @return Response
      */
-    public function show(Thread $thread)
+    public function show($channelId,Thread $thread)
     {
 
         return view('threads.show', compact('thread'));
@@ -82,7 +95,7 @@ class ThreadController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param Thread $thread
      * @return Response
      */
