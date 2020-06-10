@@ -36,14 +36,28 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/threads">All threads</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/threads/create">New thread</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" >Browse</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/threads">All Threads</a></li>
+                                @if(auth()->check())
+                                    <li><a class="dropdown-item" href="/threads?by={{auth()->user()->name }}">
+                                            My Threads</a></li>
+                                @endif
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" >Channels</a>
-                            <div class="dropdown-menu">
-                                @foreach(\App\Channel::all() as $channel)
+                            <ul class="dropdown-menu">
+                                @foreach($channels as $channel)
                                 <a class="dropdown-item" href="/threads/{{$channel->slug}}">{{$channel->name}}</a>
                                 @endforeach
-                            </div>
+                            </ul>
                         </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
