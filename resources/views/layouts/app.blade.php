@@ -18,6 +18,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+     body{ padding-bottom: 100px;}
+        .level {display: flex;align-items: baseline; }
+        .flex {flex:1;}
+    </style>
 </head>
 <body style="padding-bottom: 100px;">
     <div id="app">
@@ -33,9 +38,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/threads">All threads</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="/threads/create">New thread</a>
                         </li>
@@ -47,6 +50,9 @@
                                     <li><a class="dropdown-item" href="/threads?by={{auth()->user()->name }}">
                                             My Threads</a></li>
                                 @endif
+                                <li class="nav-item">
+                                    <a class="dropdown-item" href="/threads?popular=1">Popular Threads</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
