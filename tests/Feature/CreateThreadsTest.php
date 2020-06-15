@@ -3,9 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-
-
-use mysql_xdevapi\Session;
 use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
@@ -78,6 +75,46 @@ class CreateThreadsTest extends TestCase
       return  $this->post('/threads',$thread->toArray());
 
     }
+
+    /**
+     * @test
+     */
+    public function auth_users_can_delete_threads()
+    {
+        $user =factory('App\User')->create();
+
+        $thread = factory('App\Thread')
+            ->create(['user_id'=>$user->id]);
+
+        $reply = factory('App\Reply')
+            ->create(['thread_id' =>$thread->id ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->json('DELETE',$thread->path());
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    /**
+     * @test
+     */
+     function unauth_users_may_not_delete_threads()
+    {
+        $thread = factory('App\Thread')->create();
+        $this->delete($thread->path())
+            ->assertRedirect('login');
+        $this->actingAs(factory('App\User')->create());
+        $this->delete($thread->path())
+            ->assertStatus(403);
+
+
+    }
+    /**@test*/
+
 
 
 }

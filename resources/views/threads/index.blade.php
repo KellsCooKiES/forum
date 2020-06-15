@@ -5,26 +5,25 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Forum Threads</div>
-
-                    <div class="card-body">
-                        @foreach($threads as $thread)
-                            <article class="p-2 ">
-                                <div class="level">
-                                    <h4 class="pb-2 flex">
-                                        <a href="{{$thread->path()}}">{{  $thread->title}}
-                                        </a>
-                                    </h4>
-                                    <a href="{{$thread->path()}}">{{$thread->replies_count}}
-                                        {{Str::plural('reply',$thread->replies_count)}}</a>
-                                </div>
+                @forelse($threads as $thread)
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="level">
+                                <h4 class="pb-2 flex">
+                                    <a href="{{$thread->path()}}">{{  $thread->title}}
+                                    </a>
+                                </h4>
+                                <a href="{{$thread->path()}}">{{$thread->replies_count}}
+                                    {{Str::plural('reply',$thread->replies_count)}}</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
                                 <p class="card-text">{{ $thread->body }}</p>
-                            </article>
-                            <hr>
-                        @endforeach
+                        </div>
                     </div>
-                </div>
+                @empty
+                    <p>There are no relevant results at this time.</p>
+                @endforelse
             </div>
         </div>
     </div>

@@ -23,6 +23,7 @@ class CreateThreadsTable extends Migration
 
 //            $table->foreign('channel_id')->references('id')->on('channels');
             $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 

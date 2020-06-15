@@ -1,7 +1,7 @@
 <div class="card mt-4">
     <div class="card-header">
         <div class="level">
-            <span class="flex"><a href="">
+            <span class="flex"><a href="/profiles/{{$reply->owner->name}}">
                     {{$reply->owner->name}}
                 </a>
                 said {{$reply->created_at->diffForHumans()}}

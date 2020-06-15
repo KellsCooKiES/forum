@@ -19,6 +19,7 @@ class CreateRepliesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('body');
             $table->timestamps();
+
         });
     }
 
