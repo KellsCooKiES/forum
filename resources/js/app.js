@@ -8,6 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -30,3 +32,7 @@ Vue.component('flash', require('./components/flash.vue').default);
 const app = new Vue({
     el: '#app',
 });
+
+
+
+

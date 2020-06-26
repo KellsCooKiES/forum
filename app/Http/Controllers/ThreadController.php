@@ -6,8 +6,11 @@ use App\Channel;
 use App\Thread;
 use App\Filters\ThreadFilters;
 use App\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ThreadController extends Controller
 {
@@ -39,7 +42,7 @@ class ThreadController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -50,7 +53,6 @@ class ThreadController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
      */
     public function store(Request $request)
     {
@@ -67,7 +69,7 @@ class ThreadController extends Controller
          'body' => $request['body'],
          'channel_id'=>$request['channel_id']
      ]);
-     return redirect($thread->path());
+     return redirect($thread->path())->with('flash','Your thread has been published');
     }
 
     /**
@@ -75,7 +77,7 @@ class ThreadController extends Controller
      *
      * @param $channelId
      * @param Thread $thread
-     * @return Response
+     * @return Application|Factory|View
      */
     public function show($channelId,Thread $thread)
     {
@@ -90,7 +92,7 @@ class ThreadController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Thread $thread
-     * @return Response
+     * @return void
      */
     public function edit(Thread $thread)
     {
