@@ -22,6 +22,7 @@
      body{ padding-bottom: 100px;}
         .level {display: flex;align-items: baseline; }
         .flex {flex:1;}
+        .mr-1{ margin-right: 1em;}
     </style>
 </head>
 <body style="padding-bottom: 100px;">

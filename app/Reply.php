@@ -32,7 +32,11 @@ class Reply extends Model
     use Favoritable;
     protected $guarded =[];
     protected  $with =['owner','favorites'];
-
+    protected static function booted(){
+        static::deleting(function ($reply){
+            $reply->favorites->each->delete();
+        });
+    }
     public function thread()
     {
         return $this->belongsTo(Thread::class);
@@ -42,5 +46,11 @@ class Reply extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function path()
+    {
+        return  $this->thread->path() ."#reply-{$this->id}";
+    }
+
 
 }

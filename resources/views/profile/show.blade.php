@@ -11,13 +11,14 @@
                     </h1>
                 </div>
                 @foreach($activities as $date => $activityCollection)
-                    <h3 class="mt-3" >{{ $date }}</h3>
+                    <h3 class="mt-3">{{ $date }}</h3>
                     <hr>
                     @foreach($activityCollection as $activity)
-                        @include("profile.activities.{$activity->type}")
+                        @if (view()->exists("profile.activities.{$activity->type}"))
+                            @include("profile.activities.{$activity->type}")
+                        @endif
                     @endforeach
                 @endforeach
-{{--                {{$threads->links()}}--}}
             </div>
         </div>
     </div>
