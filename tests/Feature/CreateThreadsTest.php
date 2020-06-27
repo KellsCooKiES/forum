@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Activity;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -81,22 +82,22 @@ class CreateThreadsTest extends TestCase
      */
     public function auth_users_can_delete_threads()
     {
-        $user =factory('App\User')->create();
+        $this->actingAs(factory('App\User')->create());
 
         $thread = factory('App\Thread')
-            ->create(['user_id'=>$user->id]);
+            ->create(['user_id'=> auth()->id()]);
 
         $reply = factory('App\Reply')
             ->create(['thread_id' =>$thread->id ]);
 
         $response = $this
-            ->actingAs($user)
             ->json('DELETE',$thread->path());
 
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertEquals(0,Activity::count());
     }
 
     /**

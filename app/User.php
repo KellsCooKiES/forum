@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return 'name';
     }
+
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+    }
 }

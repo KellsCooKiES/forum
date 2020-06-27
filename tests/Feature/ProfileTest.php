@@ -25,6 +25,7 @@ class ProfileTest extends TestCase
     public function profiles_display_all_users_threads()
     {
         $user = factory('App\User')->create();
+        $this->actingAs($user);
         $thread = factory('App\Thread')->create(['user_id'=>$user->id]);
         $this->get("/profiles/{$user->name}")
             ->assertSee($thread->title)
