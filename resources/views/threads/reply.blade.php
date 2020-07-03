@@ -9,15 +9,7 @@
             </span>
 
                 <div>
-
-                    <form method="POST" action="/replies/{{$reply->id}}/favorites">
-                        @csrf
-                        <button type="submit"
-                                class="btn btn-outline-secondary" {{ $reply->isFavorited() ? 'disabled':'' }}>
-                            {{$reply->favorites_count}}
-                            {{Str::plural('Favorite',$reply->favorites_count)}}
-                        </button>
-                    </form>
+                    <favorite :reply="{{ $reply }}"></favorite>
                 </div>
             </div>
         </div>
@@ -34,12 +26,7 @@
         @can('update',$reply)
             <div class="card-footer level ">
                 <button class="btn btn-outline-dark btn-sm mr-1" @click="editing = true">Edit</button>
-
-                <form method="post" action="/replies/{{$reply->id}}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete reply</button>
-                </form>
+                <button type="submit" class="btn btn-outline-danger btn-sm" @click="destroy" >Delete</button>
             </div>
         @endcan
     </div>

@@ -32,6 +32,9 @@ class Reply extends Model
     use Favoritable;
     protected $guarded =[];
     protected  $with =['owner','favorites'];
+
+    protected $appends=['favoritesCount','isFavorited'];
+
     protected static function booted(){
         static::deleting(function ($reply){
             $reply->favorites->each->delete();
