@@ -4,6 +4,7 @@
 
 <script>
     import replies from "../replies.vue";
+
     export default {
         props: [
             'initialRepliesCount'

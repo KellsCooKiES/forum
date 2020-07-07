@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
@@ -13,16 +14,20 @@ class ReplyController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Thread $thread)
+    public function store(Channel $channel,Thread $thread)
     {
 
       $data = \request()->validate([
           'body'=>'required'
       ]);
-        $thread->addReply([
+      $reply= $thread->addReply([
             'body' => $data['body'],
             'user_id' => auth()->id()
         ]);
+
+        if (\request()->expectsJson()){
+            return $reply->load('owner');
+        }
         return back()->with('flash','Your reply has been left.');
     }
 
