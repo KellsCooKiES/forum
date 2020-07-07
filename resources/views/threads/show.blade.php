@@ -2,7 +2,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+
+    <thread-vue :initial-replies-count="{{ $thread->replies_count }}" inline-template>
+    <div  class="container">
         <div class="row  ">
             <div class="col-md-8">
                 <div class="card">
@@ -25,12 +27,11 @@
                         {{ $thread->body }}
                     </div>
                 </div>
-                <div class="mb-4">
-                    @foreach($replies as $reply)
-                        @include('threads.reply')
-                    @endforeach
-                </div>
-                {{$replies->links()}}
+
+                <replies :data="{{ $thread->replies }}"  @removed="repliesCount--"></replies>
+
+
+{{--                {{$replies->links()}}--}}
 
                 @if(auth()->check())
                     <form method="POST" action="/threads/{{$thread->id}}/replies">
@@ -53,13 +54,14 @@
                 <div class="card">
                     <div class="card-body">
                         <p>This thread was published {{$thread->created_at->diffForHumans()}} by
-                            <a href="">{{ $thread->creator->name }}
-                                , and currently has {{$thread->replies_count}} {{ Str::plural('comment',$thread->replies_count) }} .
-                            </a>
+                            <a href="">{{ $thread->creator->name }} </a>
+                                , and currently has <span v-text="repliesCount"></span> {{ Str::plural('comment',$thread->replies_count) }} .
+
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </thread-vue>
 @endsection

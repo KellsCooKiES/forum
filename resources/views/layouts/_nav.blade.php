@@ -10,10 +10,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-
+                @if(Auth::check())
                 <li class="nav-item">
                     <a class="nav-link" href="/threads/create">New thread</a>
                 </li>
+                @endif
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" >Browse</a>
                     <ul class="dropdown-menu">
@@ -31,7 +32,7 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" >Channels</a>
                     <ul class="dropdown-menu">
                         @foreach($channels as $channel)
-                        <a class="dropdown-item" href="/threads/{{$channel->slug}}">{{$channel->name}}</a>
+                        <a class="dropdown-item" href="/threads/{{ $channel->slug }}">{{$channel->name}}</a>
                         @endforeach
                     </ul>
                 </li>

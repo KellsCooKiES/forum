@@ -35,11 +35,7 @@ class Reply extends Model
 
     protected $appends=['favoritesCount','isFavorited'];
 
-    protected static function booted(){
-        static::deleting(function ($reply){
-            $reply->favorites->each->delete();
-        });
-    }
+
     public function thread()
     {
         return $this->belongsTo(Thread::class);

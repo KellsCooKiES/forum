@@ -10,6 +10,8 @@ window.Vue = require('vue');
 
 
 
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -22,7 +24,8 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('flash', require('./components/flash.vue').default);
-Vue.component('reply', require('./components/Reply.vue').default);
+Vue.component('thread-vue', require('./components/pages/Thread.vue').default);
+
 
 
 /**
